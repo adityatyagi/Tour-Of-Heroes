@@ -14,6 +14,7 @@ import { of, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HeroService {
+  // get all heroes
   getHeroes(): Observable<Hero[]> {
 
     // TODO: send the message _after_ fetching the heroes
@@ -21,6 +22,17 @@ export class HeroService {
 
     // returns an observable - mocks HttpClient.get() async operation
     return of(HEROES);
+  }
+
+
+  // get a particular hero details
+  getHero(id: number): Observable<Hero> {
+
+    // TODO: send the message _after_ fetching the heroes
+    this.messageService.add(`HeroService: fetched heroes with id: ${id}`);
+
+    // returns an observable - mocks HttpClient.get() async operation
+    return of(HEROES.find(hero => hero.id === id));
   }
 
   constructor(private messageService: MessageService) { }

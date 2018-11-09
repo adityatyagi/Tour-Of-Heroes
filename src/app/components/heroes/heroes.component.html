@@ -2,13 +2,13 @@
   <br>
   <h4>List of Heroes</h4>
   <ul class="heroes">
-    <li *ngFor="let h of heroes"  (click)="onSelect(h)" [class.selected]="h === selectedHero">
-      <span class="badge badge-secondary">{{h.id}}</span> {{h.name}}
+    <li *ngFor="let hero of heroes" [class.selected]="hero === selectedHero">
+      <!--routerLink = 'detail/:id'   : will append to the current path-->
+      <!--routerLink = '/detail/:id'   : will take it from the base url-->
+      <a routerLink='/detail/{{hero.id}}'>
+      <span class="badge badge-secondary">{{hero.id}}</span> {{hero.name}}
+    </a>
     </li>
   </ul>
 <br>
-
-<!--Hero Detail-->
-<app-hero-detail [hero]=selectedHero></app-hero-detail>
-  
 </div>

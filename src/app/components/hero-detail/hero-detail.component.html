@@ -1,5 +1,7 @@
+<br>
+<br>
 <div *ngIf="hero">
-    <h4>Details for: {{hero.name | uppercase}}</h4>
+    <h5><strong>Details for:</strong> {{hero.name | uppercase}}</h5>
     <div><span>ID: </span>{{hero.id}}</div>
     <div><span>Name: </span>{{hero.name}}</div>
     
@@ -9,3 +11,8 @@
       </label>
     </div>
 </div>
+
+<br>
+<button class="btn btn-warning" (click)="goBack()">Go Back</button>
+<br>
+<br>

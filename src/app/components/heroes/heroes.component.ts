@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Hero } from './hero';
 import { HEROES } from './mock-heroes';
 import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
+import { HeroService } from 'src/app/services/hero.service';
 
 
 @Component({
@@ -20,11 +21,17 @@ export class HeroesComponent implements OnInit {
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
   }
-  constructor() { }
+  constructor(private heroService: HeroService) { }
 
   ngOnInit() {
-    // initialise data
-    this.heroes = HEROES;
+    // initialise data - getting the hero data from the service
+    this.getHeroes();
+  }
+
+  getHeroes(): void {
+    // streamData is one hero in the stream of heroes
+    this.heroService.getHeroes()
+    .subscribe(streamData => this.heroes = streamData);
   }
 
 }

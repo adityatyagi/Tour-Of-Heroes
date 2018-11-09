@@ -13,6 +13,9 @@ import { of, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,10 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class HeroService {
   // now we will get data from in-memory-web-api rather than mockHeroes.ts
   private heroesUrl = 'api/heroes';  // URL to web api - :base/:collectionName
+
+
+
+
   // ----------------------- GET ALL HEROES ---------------------------------
   // get all heroes - OLD
   /*
@@ -67,7 +74,43 @@ export class HeroService {
     );
   }
 
-  // -------------------------------------------------
+  // ------------------------- SAVE CHANGES -------------------------
+  /** PUT: update the hero on the server */
+  /** PUT: update the hero on the server */
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero, httpOptions).pipe(
+      tap(_ => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>('updateHero'))
+    );
+  }
+
+
+  // ---------------------- ADD NEW HERO --------------------------
+  /** POST: add a new hero to the server */
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
+      tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
+      catchError(this.handleError<Hero>('addHero'))
+    );
+  }
+
+
+  // --------------------- DELETE HERO ---------------------------
+  /** DELETE: delete the hero from the server */
+  deleteHero(hero: Hero | number): Observable<Hero> {
+    const id = typeof hero === 'number' ? hero : hero.id;
+    const url = `${this.heroesUrl}/${id}`;
+
+    return this.http.delete<Hero>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted hero id=${id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
+  }
+
+
+
+
+  // ------------------------ERROR HANDLER-------------------------
 
   // GENERIC ERROR HANDLER - <T> for returning a suitable type of observable that the service expects
   /**
